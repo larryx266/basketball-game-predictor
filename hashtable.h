@@ -1,3 +1,5 @@
+#ifndef HASHTABLE_H
+#define HASHTABLE_H
 #include <cstdlib>
 #include <cstddef>
 #include <iostream>
@@ -71,3 +73,4 @@ private:
     //the "hashtable"
     std::pair<std::string, int>* data;
 };
+#endif
