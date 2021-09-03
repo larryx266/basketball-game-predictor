@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Hashtable::Hashtable(bool debug, unsigned int probing){
+hashtable::hashtable(bool debug, unsigned int probing){
 	//initializing everything
 	this->debug = debug;
 	probingType = probing;
@@ -32,11 +32,11 @@ Hashtable::Hashtable(bool debug, unsigned int probing){
 	}
 }
 
-Hashtable::~Hashtable(){ 
+hashtable::~hashtable(){ 
 	delete[] data;
 }
 
-void Hashtable::add(string k){
+void hashtable::add(string k){
 	//asking find() for where to put it, and if it exists
 	pair<bool, int> result = find(k);
 
@@ -54,7 +54,7 @@ void Hashtable::add(string k){
 	}
 }
 
-int Hashtable::count(string k){
+int hashtable::count(string k){
 	//asking find for the string
 	pair<bool, int> result = find(k);
 	if (!result.first){
@@ -64,7 +64,7 @@ int Hashtable::count(string k){
 	return data[result.second].second;
 }
 
-void Hashtable::reportAll(ostream& ofile) const{
+void hashtable::reportAll(ostream& ofile) const{
 	//simple ostream dump
 	int count = 0;
 	for (int i = 0; i < size; i++){
@@ -78,7 +78,7 @@ void Hashtable::reportAll(ostream& ofile) const{
 	}
 }
 
-void Hashtable::resize() {
+void hashtable::resize() {
 	//creating a new "hashtable" and rehashing
 	int oldSize = size;
 	size = resizingSizes[resizeIndex];
@@ -116,7 +116,7 @@ void Hashtable::resize() {
 	loadFactor = (double) numItems / (double) size;
 }
 
-int Hashtable::hash(string k) const{
+int hashtable::hash(string k) const{
 	//doing the a1 r1 and w1 method that was requested
 	int stringSize = k.size();
 	int w[5];
@@ -151,7 +151,7 @@ int Hashtable::hash(string k) const{
 	return (int) result;
 }
 
-int Hashtable::doubleHash(string k) const{
+int hashtable::doubleHash(string k) const{
 	//doing the double hash function that was requested
 	int stringSize = k.size();
 	int w[5];
@@ -189,7 +189,7 @@ int Hashtable::doubleHash(string k) const{
 
 //true = found in table
 //int is the index
-pair<bool, int> Hashtable::find(string k){
+pair<bool, int> hashtable::find(string k){
 	//if the initial hash is empty or the desired string, done
 	int h = hash(k);
 	if (data[h].first == ""){

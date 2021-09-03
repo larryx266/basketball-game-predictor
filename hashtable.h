@@ -5,10 +5,10 @@
 #include <string>
 #include <fstream>
 
-class Hashtable {
+class hashtable {
 public:
-    Hashtable(bool debug = false, unsigned int probing = 0);
-    ~Hashtable();
+    hashtable(bool debug = false, unsigned int probing = 0);
+    ~hashtable();
 
     //adds string with value 1 to the hashtable, if it already exists
     //increment its value by 1
