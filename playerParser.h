@@ -3,21 +3,18 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include "player.h"
+#include "hashtable.h"
 
 class playerParser {
 public:
 	playerParser();
 	~playerParser();
 	//grab stream and put all the players inside
-	//actually, instead of returning a vector of the players, 
-	//just directly place them into the total player hashtable
-	//change to void
-	std::vector<player> parse(std::string team, std::istream& stream);
+	void parse(std::string team, hashtable* players, std::istream& stream);
 private:
 	std::string team;
 	//hashtable of all players
-	hashtable allPlayers;
+	//hashtable allPlayers;
 };
 
 #endif
