@@ -36,34 +36,31 @@ hashtable::~hashtable(){
 	delete[] data;
 }
 
-void hashtable::add(string k){
+//run this as update() too
+void hashtable::add(string name, std::vector<double> stats){
 	//asking find() for where to put it, and if it exists
-	pair<bool, int> result = find(k);
-
-	if (result.first){
-		data[result.second].second++;
-	}
+	pair<bool, int> result = find(name);
 	
-	else{
-		data[result.second] = make_pair(k, 1);
+	data[result.second].second = stats;
+
+	if(!result.first){
 		numItems++;
 		loadFactor = (double) numItems / (double) size;
-		if (loadFactor >= 0.5){
-			resize();
-		}
+		if (loadFactor >= 0.5) resize();
 	}
 }
 
-int hashtable::count(string k){
+vector<double> hashtable::getStats(string name){
 	//asking find for the string
 	pair<bool, int> result = find(k);
-	if (!result.first){
-		return 0;
-	}
+
+	//if player doesn't exist, return null
+	if (!result.first) return NULL;
 
 	return data[result.second].second;
 }
 
+//NOT UPDATED YET, REPORT IN PARSER FORMAT
 void hashtable::reportAll(ostream& ofile) const{
 	//simple ostream dump
 	int count = 0;
@@ -90,8 +87,8 @@ void hashtable::resize() {
 		}
 	}
 
-	pair<string, int>* oldData = data;
-	pair<string, int>* temp = new pair<string, int>[size];
+	pair<string, vector<double>>* oldData = data;
+	pair<string, vector<double>>* temp = new pair<string, vector<double>>[size];
 	data = temp;
 
 	for (int i = 0; i < size; i++){
@@ -110,6 +107,7 @@ void hashtable::resize() {
 			pair<bool, int> result = find(oldData[i].first);
 			data[result.second] = make_pair(oldData[i].first, oldData[i].second);
 		}
+		//new comment: once again, my geniosity astounds me; that logic is crazy
 	}
 
 	delete[] oldData;

@@ -18,11 +18,11 @@ public:
     //increment its value by 1
     //v2.0 hash based on name, keep a vector of stats -> might want to do arrays 
     //but that's fixed
-    void add(std::string k, std::vector<double> stats);
+    void add(std::string name, std::vector<double> stats);
 
     //v1.0 (count) returns the value of the string, if could not find, return 0
     //v2.0 if you end up changing to array, returning is gonna need to be different
-    vector<double> getStats(std::string k);
+    std::vector<double> getStats(std::string name);
 
     //puts everything in a file
     void reportAll(std::ostream& ofile) const;
