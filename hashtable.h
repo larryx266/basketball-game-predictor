@@ -78,6 +78,6 @@ private:
 
     //the "hashtable"
     //<name, vector of stats>
-    std::pair<std::string, std::vector<double>* data;
+    std::pair<std::string, std::vector<double>>* data;
 };
 #endif

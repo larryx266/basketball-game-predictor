@@ -10,7 +10,7 @@ hashtable::hashtable(bool debug, unsigned int probing){
 	numItems = 0;
 	loadFactor = 0;
 
-	data = new pair<string, int>[11];
+	data = new pair<string, vector<double>>[11];
 	resizeIndex = 1;
 
 	for (int i = 0; i < 11; i++){
@@ -41,6 +41,7 @@ void hashtable::add(string name, std::vector<double> stats){
 	//asking find() for where to put it, and if it exists
 	pair<bool, int> result = find(name);
 	
+	data[result.second].first = name;
 	data[result.second].second = stats;
 
 	if(!result.first){
@@ -52,15 +53,17 @@ void hashtable::add(string name, std::vector<double> stats){
 
 vector<double> hashtable::getStats(string name){
 	//asking find for the string
-	pair<bool, int> result = find(k);
+	pair<bool, int> result = find(name);
 
 	//if player doesn't exist, return null
-	if (!result.first) return NULL;
+	if (!result.first) {
+		vector<double> x;
+		return x;
+	}
 
 	return data[result.second].second;
 }
 
-//NOT UPDATED YET, REPORT IN PARSER FORMAT
 void hashtable::reportAll(ostream& ofile) const{
 	//simple ostream dump
 	int count = 0;
@@ -70,7 +73,11 @@ void hashtable::reportAll(ostream& ofile) const{
 		}
 		if (data[i].first != ""){
 			count++;
-			ofile << data[i].first << " " << data[i].second << endl;
+			ofile << "<player>" << endl << data[i].first << endl;
+			for (int j = 0; j < data[i].second.size(); j++) {
+				ofile << data[i].second[j] << endl;
+			}
+			ofile << "</player>" << endl << endl;
 		}
 	}
 }
