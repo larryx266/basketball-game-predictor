@@ -1,0 +1,16 @@
+<player>
+Giannis Antetokounmpo
+26
+211
+0
+61
+28.1
+11
+5.9
+1.2
+3.4
+1.2
+1.2
+0.569
+</player>
+
