@@ -16,6 +16,8 @@ public:
     void updateStats();
     void computeAggregate();
     double getAggregate();
+    std::string getName();
+    std::string getTeam();
 
 private:
     double aggregate = 0;

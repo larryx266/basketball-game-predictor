@@ -17,6 +17,7 @@ public:
 private:
 	std::string team;
 	//hashtable of all players
+	hashtable allPlayers;
 };
 
 #endif

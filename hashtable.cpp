@@ -10,7 +10,7 @@ hashtable::hashtable(bool debug, unsigned int probing){
 	numItems = 0;
 	loadFactor = 0;
 
-	data = new pair<string, vector<double>>[11];
+	data = new pair<string, player*>[11];
 	resizeIndex = 1;
 
 	for (int i = 0; i < 11; i++){
@@ -37,12 +37,12 @@ hashtable::~hashtable(){
 }
 
 //run this as update() too
-void hashtable::add(string name, std::vector<double> stats){
+void hashtable::add(string name, player* player){
 	//asking find() for where to put it, and if it exists
 	pair<bool, int> result = find(name);
 	
 	data[result.second].first = name;
-	data[result.second].second = stats;
+	data[result.second].second = player;
 
 	if(!result.first){
 		numItems++;
@@ -51,21 +51,18 @@ void hashtable::add(string name, std::vector<double> stats){
 	}
 }
 
-vector<double> hashtable::getStats(string name){
+player* hashtable::getPlayer(string name){
 	//asking find for the string
 	pair<bool, int> result = find(name);
 
 	//if player doesn't exist, return null
-	if (!result.first) {
-		vector<double> x;
-		return x;
-	}
+	if (!result.first) return NULL;
 
 	return data[result.second].second;
 }
 
 void hashtable::reportAll(ostream& ofile) const{
-	//simple ostream dump
+	//simple ostream dump into parser format
 	int count = 0;
 	for (int i = 0; i < size; i++){
 		if (count == numItems){
@@ -74,8 +71,9 @@ void hashtable::reportAll(ostream& ofile) const{
 		if (data[i].first != ""){
 			count++;
 			ofile << "<player>" << endl << data[i].first << endl;
-			for (int j = 0; j < data[i].second.size(); j++) {
-				ofile << data[i].second[j] << endl;
+			vector<double> stats = data[i].second->getStats();
+			for (unsigned int j = 0; j < stats.size(); j++) {
+				ofile << stats[j] << endl;
 			}
 			ofile << "</player>" << endl << endl;
 		}
@@ -94,8 +92,8 @@ void hashtable::resize() {
 		}
 	}
 
-	pair<string, vector<double>>* oldData = data;
-	pair<string, vector<double>>* temp = new pair<string, vector<double>>[size];
+	pair<string, player*>* oldData = data;
+	pair<string, player*>* temp = new pair<string, player*>[size];
 	data = temp;
 
 	for (int i = 0; i < size; i++){

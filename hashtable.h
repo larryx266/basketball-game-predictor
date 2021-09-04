@@ -7,6 +7,9 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include "player.h"
+
+//DYNAMICALLY ALLOCATE ALL PLAYERS -> PASS AS POINTERS
 
 class hashtable {
 public:
@@ -18,11 +21,11 @@ public:
     //increment its value by 1
     //v2.0 hash based on name, keep a vector of stats -> might want to do arrays 
     //but that's fixed
-    void add(std::string name, std::vector<double> stats);
+    void add(std::string name, player* player);
 
     //v1.0 (count) returns the value of the string, if could not find, return 0
     //v2.0 if you end up changing to array, returning is gonna need to be different
-    std::vector<double> getStats(std::string name);
+    player* getPlayer(std::string name);
 
     //puts everything in a file
     void reportAll(std::ostream& ofile) const;
@@ -77,7 +80,8 @@ private:
     double loadFactor;
 
     //the "hashtable"
-    //<name, vector of stats>
-    std::pair<std::string, std::vector<double>>* data;
+    //v1.0 <name, vector of stats>
+    //v2.0 <name, player class>
+    std::pair<std::string, player*>* data;
 };
 #endif

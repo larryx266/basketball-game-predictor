@@ -94,3 +94,11 @@ void player::computeAggregate() {
 double player::getAggregate() {
 	return aggregate;
 }
+
+string player::getName() {
+	return name;
+}
+
+string player::getTeam() {
+	return team;
+}

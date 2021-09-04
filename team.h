@@ -2,19 +2,19 @@
 #define TEAM_H
 #include <string>
 #include <vector>
-#include "player.h"
+#include "hashtable.h"
 
 class team {
 public:
     team();
 	team(std::string name);
 	~team();
-	void addPlayer(player plyr);
-	std::vector<player> getAllPlayers();
+	void addPlayer(player* player);
+	hashtable getAllPlayers();
 
 private:
 	std::string name;
     std::string coach;
-    std::vector<player> players;
+    hashtable players;
 };
 #endif
