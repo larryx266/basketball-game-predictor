@@ -6,18 +6,23 @@
 #include <utility>
 #include <string>
 #include <fstream>
+#include <vector>
 
 class hashtable {
 public:
+    //can drop debug mode but it might be a resume boost thing
     hashtable(bool debug = false, unsigned int probing = 0);
     ~hashtable();
 
-    //adds string with value 1 to the hashtable, if it already exists
+    //v1.0 adds string with value 1 to the hashtable, if it already exists
     //increment its value by 1
-    void add(std::string k);
+    //v2.0 hash based on name, keep a vector of stats -> might want to do arrays 
+    //but that's fixed
+    void add(std::string k, std::vector<double> stats);
 
-    //returns the value of the string, if could not find, return 0
-    int count(std::string k);
+    //v1.0 (count) returns the value of the string, if could not find, return 0
+    //v2.0 if you end up changing to array, returning is gonna need to be different
+    vector<double> getStats(std::string k);
 
     //puts everything in a file
     void reportAll(std::ostream& ofile) const;
@@ -35,6 +40,7 @@ private:
     //basically all other functions call this, 
     //returns <whether or not it was found, the index location>
     //note: if it was not found, the index location is where it should be placed
+    //new comment: bro my brain was so fucking big when I wrote that 
     std::pair<bool, int> find(std::string k);
 
     //linear probing, quadratic probing, or double hashing
@@ -71,6 +77,7 @@ private:
     double loadFactor;
 
     //the "hashtable"
-    std::pair<std::string, int>* data;
+    //<name, vector of stats>
+    std::pair<std::string, std::vector<double>* data;
 };
 #endif
