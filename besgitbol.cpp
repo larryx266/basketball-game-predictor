@@ -1,5 +1,7 @@
 #include "player.h"
-//#include "team.h"
+#include "team.h"
+#include "hashtable.h"
+#include "playerParser.h"
 #include <iostream>
 #include <iomanip>
 
@@ -20,7 +22,6 @@ int main () {
     double steals;
     double blocks;
     double fgPercent;
-
 	cout << "Enter Player name then team, separated by new line" << endl;
 	cin >> name;
 	cin >> team;

@@ -29,7 +29,7 @@ void player::changeTeam(string team) {
 }
 
 void player::setStats(vector<string> statNames, vector<double> statChanges) {
-	for (int i = 0; i < statNames.size(); i++) {
+	for (unsigned int i = 0; i < statNames.size(); i++) {
 		//just call statNames[i] on hashtable to change 
 		if (statNames[i] == "age") age = statChanges[i];
 		if (statNames[i] == "heightcm") heightcm = statChanges[i];
