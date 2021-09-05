@@ -2,27 +2,30 @@ CXX = g++
 CXXFLAGS = -g -Wall 
 BIN_DIR = bin
 
-OBJS = besgitbol.o player.o hashtable.o team.o playerParser.o
+OBJS = $(BIN_DIR)/besgitbol.o $(BIN_DIR)/player.o $(BIN_DIR)/hashtable.o $(BIN_DIR)/team.o $(BIN_DIR)/playerParser.o
 
-all: besgitbol
+all: $(BIN_DIR)/besgitbol
 
-besgitbol: $(OBJS)
+$(BIN_DIR)/besgitbol: $(BIN_DIR) $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJS)
 
-besgitbol.o: besgitbol.cpp player.h hashtable.h team.h playerParser.h
+$(BIN_DIR)/besgitbol.o: besgitbol.cpp player.h hashtable.h team.h playerParser.h
 	$(CXX) $(CXXFLAGS) -o $@ -c besgitbol.cpp
 
-player.o: player.cpp player.h
+$(BIN_DIR)/player.o: player.cpp player.h
 	$(CXX) $(CXXFLAGS) -o $@ -c player.cpp
 
-hashtable.o: hashtable.cpp hashtable.h
+$(BIN_DIR)/hashtable.o: hashtable.cpp hashtable.h
 	$(CXX) $(CXXFLAGS) -o $@ -c hashtable.cpp
 
-team.o: team.cpp team.h
+$(BIN_DIR)/team.o: team.cpp team.h
 	$(CXX) $(CXXFLAGS) -o $@ -c team.cpp
 
-playerParser.o: playerParser.cpp playerParser.h
+$(BIN_DIR)/playerParser.o: playerParser.cpp playerParser.h
 	$(CXX) $(CXXFLAGS) -o $@ -c playerParser.cpp
 
+$(BIN_DIR):
+	mkdir $(BIN_DIR)
+
 clean:
-	rm -f *.o besgitbol
+	rm -rf $(BIN_DIR)
