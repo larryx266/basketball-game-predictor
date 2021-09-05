@@ -11,6 +11,7 @@ public:
 	~team();
 	void addPlayer(player* player);
 	hashtable* getAllPlayers();
+	player* getPlayer(std::string name);
 
 private:
 	std::string name;

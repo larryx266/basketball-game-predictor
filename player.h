@@ -14,12 +14,12 @@ public:
     //after converting to hashtables, we can directly use vector statNames to look up and change stats 
     void setStats(std::vector<std::string> statNames, std::vector<double> statChanges);
     void updateStats();
-    void computeAggregate();
     double getAggregate();
     std::string getName();
     std::string getTeam();
 
 private:
+    void computeAggregate();
     double aggregate = 0;
     std::string team;
     //double weightedInjury;

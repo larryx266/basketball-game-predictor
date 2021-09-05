@@ -76,6 +76,7 @@ void player::updateStats() {
 		stats[10] = blocks;
 		stats[11] = fgPercent;
 	}
+	computeAggregate();
 }
 
 void player::computeAggregate() {

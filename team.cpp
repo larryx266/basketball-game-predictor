@@ -24,3 +24,7 @@ void team::addPlayer(player* player) {
 hashtable* team::getAllPlayers() {
 	return players;
 }
+
+player* team::getPlayer(string name) {
+	return players->getPlayer(name);
+}

@@ -7,46 +7,23 @@
 
 using namespace std;
 
-int main () {
-	string name;
-	string team;
-	int age;
-    double heightcm;
-    double bmi;
-    int games;
-    double points;
-    double rebounds;
-    double assists;
-    double wowFactor;
-    double turnovers;
-    double steals;
-    double blocks;
-    double fgPercent;
-	cout << "Enter Player name then team, separated by new line" << endl;
-	cin >> name;
-	cin >> team;
+int main (int argc, char* argv[]) {
+	if (argc < 3) {
+		cout << "Enter a Team Roster and File Dump Location" << endl;
+		return -1;
+	}
 
-	cout << "Enter player stats, separated by new line" << endl;
-	cin >> age;
-	cin >> heightcm;
-	cin >> bmi;
-	cin >> games;
-	cin >> points;
-	cin >> rebounds;
-	cin >> assists;
-	cin >> wowFactor;
-	cin >> turnovers;
-	cin >> steals;
-	cin >> blocks;
-	cin >> fgPercent;
+	ifstream stream;
+	stream.open(argv[1]);
+	team bucks = team("Milwaukee Bucks");
+	playerParser parser = playerParser();
+	parser.parse("Milwaukee Bucks", bucks.getAllPlayers(), stream);
+	cout << "Giannis Aggregate: " << bucks.getPlayer("Giannis Antetokounmpo")->getAggregate() << endl;
+	cout << "Khris Aggregate: " << bucks.getPlayer("Khris Middleton")->getAggregate() << endl;
 
-	player giannis = player(team, name, age, heightcm, bmi, games, points, rebounds, assists, wowFactor,
-						turnovers, steals, blocks, fgPercent);
-	
-	double score;
-	giannis.computeAggregate();
-	score = giannis.getAggregate();
-	cout << score << endl;
+	ofstream dump;
+	dump.open(argv[2]);
+	bucks.getAllPlayers()->reportAll(dump);
 
 	return 0;
 }
