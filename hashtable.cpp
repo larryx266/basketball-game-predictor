@@ -51,14 +51,21 @@ void hashtable::add(string name, player* player){
 	//asking find() for where to put it, and if it exists
 	pair<bool, int> result = find(name);
 	
+	if (result.first) {
+		delete data[result.second].second;
+	}
+
 	data[result.second].first = name;
 	data[result.second].second = player;
 
 	if(!result.first){
 		numItems++;
 		loadFactor = (double) numItems / (double) size;
-		if (loadFactor >= 0.5) resize();
+		if (loadFactor >= 0.5) {
+			resize();
+		}
 	}
+	
 }
 
 player* hashtable::getPlayer(string name){

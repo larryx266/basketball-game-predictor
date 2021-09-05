@@ -3,21 +3,24 @@
 using namespace std;
 
 team::team() {
-	players = hashtable(false, 1);
+	//auto use quadratic probing for collision resolution
+	players = new hashtable(false, 1);
 	name = "Empty";
 }
 
 team::team(string name) {
-	players = hashtable(false, 1);
+	players = new hashtable(false, 1);
 	this->name = name;
 }
 
-team::~team() { }
-
-void team::addPlayer(player* player) {
-	players.add(player->getName(), player);
+team::~team() { 
+	delete players;
 }
 
-hashtable team::getAllPlayers() {
+void team::addPlayer(player* player) {
+	players->add(player->getName(), player);
+}
+
+hashtable* team::getAllPlayers() {
 	return players;
 }

@@ -102,3 +102,7 @@ string player::getName() {
 string player::getTeam() {
 	return team;
 }
+
+vector<double> player::getStats() {
+	return stats;
+}
