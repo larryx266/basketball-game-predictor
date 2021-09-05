@@ -33,6 +33,16 @@ hashtable::hashtable(bool debug, unsigned int probing){
 }
 
 hashtable::~hashtable(){ 
+	int count = 0;
+	for (int i = 0; i < size; i++){
+		if (count == numItems){
+			break;
+		}
+		if (data[i].first != ""){
+			count++;
+			delete data[i].second;
+		}
+	}
 	delete[] data;
 }
 
