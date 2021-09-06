@@ -8,7 +8,7 @@ playerParser::~playerParser() { }
 
 //pass in hashtable pointer
 //make players out of the streams, and hash them in
-void playerParser::parse(string team, hashtable* players, istream& stream) {
+void playerParser::parse(string team, hashtable<player>* players, istream& stream) {
 	this->team = team;
 	string curr;
 	while (getline(stream, curr)) {

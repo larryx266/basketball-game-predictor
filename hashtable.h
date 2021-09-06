@@ -10,22 +10,25 @@
 #include "player.h"
 
 //DYNAMICALLY ALLOCATE ALL PLAYERS -> PASS AS POINTERS
+//made hashtable templated: can now store any variable type
+//in value section, not just player
+//remember that we use pointers for everything 
 
+template <typename T>
 class hashtable {
 public:
     //can drop debug mode but it might be a resume boost thing
-    hashtable(bool debug = false, unsigned int probing = 0);
+    hashtable(bool debug = false, unsigned int probing = 1);
     ~hashtable();
 
     //v1.0 adds string with value 1 to the hashtable, if it already exists
     //increment its value by 1
-    //v2.0 hash based on name, keep a vector of stats -> might want to do arrays 
-    //but that's fixed
-    void add(std::string name, player* player);
+    //v2.0 hash based on name, store player pointer
+    void add(std::string k, T* value);
 
     //v1.0 (count) returns the value of the string, if could not find, return 0
-    //v2.0 if you end up changing to array, returning is gonna need to be different
-    player* getPlayer(std::string name);
+    //v2.0 return player pointer
+    T* getValue(std::string k);
 
     //puts everything in a file
     void reportAll(std::ostream& ofile) const;
@@ -82,6 +85,7 @@ private:
     //the "hashtable"
     //v1.0 <name, vector of stats>
     //v2.0 <name, player class>
-    std::pair<std::string, player*>* data;
+    //v3.0 <name, pointer to any variable type>
+    std::pair<std::string, T*>* data;
 };
 #endif

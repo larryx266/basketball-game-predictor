@@ -9,8 +9,8 @@ class playerParser {
 public:
 	playerParser();
 	~playerParser();
-	//grab stream and put all the players inside
-	void parse(std::string team, hashtable* players, std::istream& stream);
+	//grab players from stream and dump inside hashtable
+	void parse(std::string team, hashtable<player>* players, std::istream& stream);
 private:
 	std::string team;
 	//hashtable of all players

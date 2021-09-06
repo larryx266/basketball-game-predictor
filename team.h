@@ -10,12 +10,12 @@ public:
 	team(std::string name);
 	~team();
 	void addPlayer(player* player);
-	hashtable* getAllPlayers();
+	hashtable<player>* getAllPlayers();
 	player* getPlayer(std::string name);
 
 private:
 	std::string name;
     std::string coach;
-    hashtable* players;
+    hashtable<player>* players;
 };
 #endif

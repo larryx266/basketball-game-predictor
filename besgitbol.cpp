@@ -7,6 +7,11 @@
 
 using namespace std;
 
+//type make
+//then ./bin/besgitbol "Milwaukee Bucks.txt" "hashtable dump test.txt"
+//capitalization matters
+//type make clean to clear executables
+
 int main (int argc, char* argv[]) {
 	if (argc < 3) {
 		cout << "Enter a Team Roster and File Dump Location" << endl;

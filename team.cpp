@@ -1,15 +1,16 @@
 #include "team.h"
+#include "hashtable.h"
 
 using namespace std;
 
 team::team() {
 	//auto use quadratic probing for collision resolution
-	players = new hashtable(false, 1);
+	players = new hashtable<player>(false, 1);
 	name = "Empty";
 }
 
 team::team(string name) {
-	players = new hashtable(false, 1);
+	players = new hashtable<player>(false, 1);
 	this->name = name;
 }
 
@@ -21,10 +22,10 @@ void team::addPlayer(player* player) {
 	players->add(player->getName(), player);
 }
 
-hashtable* team::getAllPlayers() {
+hashtable<player>* team::getAllPlayers() {
 	return players;
 }
 
 player* team::getPlayer(string name) {
-	return players->getPlayer(name);
+	return players->getValue(name);
 }

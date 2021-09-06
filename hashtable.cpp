@@ -2,7 +2,8 @@
 
 using namespace std;
 
-hashtable::hashtable(bool debug, unsigned int probing){
+template <typename T>
+hashtable<T>::hashtable(bool debug, unsigned int probing){
 	//initializing everything
 	this->debug = debug;
 	probingType = probing;
@@ -10,7 +11,7 @@ hashtable::hashtable(bool debug, unsigned int probing){
 	numItems = 0;
 	loadFactor = 0;
 
-	data = new pair<string, player*>[11];
+	data = new pair<string, T*>[11];
 	resizeIndex = 1;
 
 	for (int i = 0; i < 11; i++){
@@ -32,7 +33,8 @@ hashtable::hashtable(bool debug, unsigned int probing){
 	}
 }
 
-hashtable::~hashtable(){ 
+template <typename T>
+hashtable<T>::~hashtable(){ 
 	int count = 0;
 	for (int i = 0; i < size; i++){
 		if (count == numItems){
@@ -47,16 +49,17 @@ hashtable::~hashtable(){
 }
 
 //run this as update() too
-void hashtable::add(string name, player* player){
+template <typename T>
+void hashtable<T>::add(string k, T* value){
 	//asking find() for where to put it, and if it exists
-	pair<bool, int> result = find(name);
+	pair<bool, int> result = find(k);
 	
 	if (result.first) {
 		delete data[result.second].second;
 	}
 
-	data[result.second].first = name;
-	data[result.second].second = player;
+	data[result.second].first = k;
+	data[result.second].second = value;
 
 	if(!result.first){
 		numItems++;
@@ -65,39 +68,43 @@ void hashtable::add(string name, player* player){
 			resize();
 		}
 	}
-	
 }
 
-player* hashtable::getPlayer(string name){
+template <typename T>
+T* hashtable<T>::getValue(string k){
 	//asking find for the string
-	pair<bool, int> result = find(name);
+	pair<bool, int> result = find(k);
 
-	//if player doesn't exist, return null
+	//if player/value doesn't exist, return null
 	if (!result.first) return NULL;
 
 	return data[result.second].second;
 }
 
-void hashtable::reportAll(ostream& ofile) const{
+template <typename T>
+void hashtable<T>::reportAll(ostream& ofile) const{
 	//simple ostream dump into parser format
-	int count = 0;
-	for (int i = 0; i < size; i++){
-		if (count == numItems){
-			break;
-		}
-		if (data[i].first != ""){
-			count++;
-			ofile << "<player>" << endl << data[i].first << endl;
-			vector<double> stats = data[i].second->getStats();
-			for (unsigned int j = 0; j < stats.size(); j++) {
-				ofile << stats[j] << endl;
+	if (is_same<T, player>::value) {
+		int count = 0;
+		for (int i = 0; i < size; i++){
+			if (count == numItems){
+				break;
 			}
-			ofile << "</player>" << endl << endl;
+			if (data[i].first != ""){
+				count++;
+				ofile << "<player>" << endl << data[i].first << endl;
+				vector<double> stats = data[i].second->getStats();
+				for (unsigned int j = 0; j < stats.size(); j++) {
+					ofile << stats[j] << endl;
+				}
+				ofile << "</player>" << endl << endl;
+			}
 		}
 	}
 }
 
-void hashtable::resize() {
+template <typename T>
+void hashtable<T>::resize() {
 	//creating a new "hashtable" and rehashing
 	int oldSize = size;
 	size = resizingSizes[resizeIndex];
@@ -109,8 +116,8 @@ void hashtable::resize() {
 		}
 	}
 
-	pair<string, player*>* oldData = data;
-	pair<string, player*>* temp = new pair<string, player*>[size];
+	pair<string, T*>* oldData = data;
+	pair<string, T*>* temp = new pair<string, T*>[size];
 	data = temp;
 
 	for (int i = 0; i < size; i++){
@@ -136,7 +143,8 @@ void hashtable::resize() {
 	loadFactor = (double) numItems / (double) size;
 }
 
-int hashtable::hash(string k) const{
+template <typename T>
+int hashtable<T>::hash(string k) const{
 	//doing the a1 r1 and w1 method that was requested
 	int stringSize = k.size();
 	int w[5];
@@ -171,7 +179,8 @@ int hashtable::hash(string k) const{
 	return (int) result;
 }
 
-int hashtable::doubleHash(string k) const{
+template <typename T>
+int hashtable<T>::doubleHash(string k) const{
 	//doing the double hash function that was requested
 	int stringSize = k.size();
 	int w[5];
@@ -209,7 +218,8 @@ int hashtable::doubleHash(string k) const{
 
 //true = found in table
 //int is the index
-pair<bool, int> hashtable::find(string k){
+template <typename T>
+pair<bool, int> hashtable<T>::find(string k){
 	//if the initial hash is empty or the desired string, done
 	int h = hash(k);
 	if (data[h].first == ""){
@@ -258,3 +268,7 @@ pair<bool, int> hashtable::find(string k){
 	//never hits, but compiler was complaining that I might never return
 	return make_pair(true, 0);
 }
+
+//add to this if you ever need hashtable to hold other stuff (like integers or something)
+//alternatively, throw this entire .cpp under the .h header file and it works for everything
+template class hashtable<player>;
