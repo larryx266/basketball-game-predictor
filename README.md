@@ -14,3 +14,6 @@ and connected
 make clean to delete 'build' and 'bin' directories 
 
 note: current hash function only gives relatively unique hashes up to 36 letters
+
+current roadmap: sum aggregates and compare between teams to get predicted winner
+-> use a linear regression model to better estimate player stats from average
