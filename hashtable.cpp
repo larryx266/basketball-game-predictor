@@ -122,9 +122,7 @@ void hashtable<T>::reportAll(ostream& ofile) const{
 template <typename T>
 void hashtable<T>::resize() {
 	//creating a new "hashtable" and rehashing
-
-	//don't need oldSize with allKeys vector
-	//int oldSize = size;
+	int oldSize = size;
 	size = resizingSizes[resizeIndex];
 	resizeIndex++;
 
@@ -142,8 +140,10 @@ void hashtable<T>::resize() {
 		data[i].first = "";
 	}
 	
-	//v1.0 rehashing process
-	/*int count = 0;
+	//rehashing process
+	//needs to loop through because we can't find key + value
+	//in the old hashtable without saving it in another variable
+	int count = 0;
 	for (int i = 0; i < oldSize; i++){
 		//if we have done every word, no need to keep checking
 		if (count == numItems){
@@ -155,12 +155,6 @@ void hashtable<T>::resize() {
 			data[result.second] = make_pair(oldData[i].first, oldData[i].second);
 		}
 		//new comment: once again, my geniosity astounds me; that logic is crazy
-	}*/
-
-	//v2.0 rehashing process
-	for (unsigned int i = 0; i < allKeys.size(); i++) {
-		pair<bool, int> result = find(allKeys[i]);
-		data[result.second] = make_pair(allKeys[i], oldData[find(allKeys[i]).second].second);
 	}
 
 	//don't need to delete stuff inside hashtable because it's been put in the new one
@@ -182,6 +176,11 @@ int hashtable<T>::hash(string k) const{
 			}
 			else{
 				a[5 - j] = k[i - j] - 97;
+				//note: because we don't pre-parse into only lowercase, 
+				//hashing becomes a little different and we need this
+				if (a[5 - j] < 0) {
+					a[5 - j] *= -1;
+				}
 			}
 		}
 		w[counter] = 26*26*26*26*26*a[0] + 26*26*26*26*a[1] + 
@@ -218,6 +217,9 @@ int hashtable<T>::doubleHash(string k) const{
 			}
 			else{
 				a[5 - j] = k[i - j] - 97;
+				if (a[5 - j] < 0) {
+					a[5 - j] *= -1;
+				}
 			}
 		}
 		w[counter] = 26*26*26*26*26*a[0] + 26*26*26*26*a[1] + 
