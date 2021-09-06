@@ -29,3 +29,7 @@ hashtable<player>* team::getAllPlayers() {
 player* team::getPlayer(string name) {
 	return players->getValue(name);
 }
+
+vector<string> team::getRoster() {
+	return players->getAllKeys();
+}

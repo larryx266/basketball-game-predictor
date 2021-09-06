@@ -13,6 +13,7 @@ using namespace std;
 //type make clean to clear executables
 
 int main (int argc, char* argv[]) {
+	srand(time(0));
 	if (argc < 3) {
 		cout << "Enter a Team Roster and File Dump Location" << endl;
 		return -1;
@@ -23,8 +24,10 @@ int main (int argc, char* argv[]) {
 	team bucks = team("Milwaukee Bucks");
 	playerParser parser = playerParser();
 	parser.parse("Milwaukee Bucks", bucks.getAllPlayers(), stream);
-	cout << "Giannis Aggregate: " << bucks.getPlayer("Giannis Antetokounmpo")->getAggregate() << endl;
-	cout << "Khris Aggregate: " << bucks.getPlayer("Khris Middleton")->getAggregate() << endl;
+	vector<string> players = bucks.getRoster();
+	for (unsigned int i = 0; i < players.size(); i++) {
+		cout << players[i] << " Aggregate: " << bucks.getPlayer(players[i])->getAggregate() << endl;
+	}
 
 	ofstream dump;
 	dump.open(argv[2]);

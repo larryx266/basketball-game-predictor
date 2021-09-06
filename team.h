@@ -12,6 +12,7 @@ public:
 	void addPlayer(player* player);
 	hashtable<player>* getAllPlayers();
 	player* getPlayer(std::string name);
+	std::vector<std::string> getRoster();
 
 private:
 	std::string name;

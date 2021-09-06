@@ -33,6 +33,8 @@ public:
     //puts everything in a file
     void reportAll(std::ostream& ofile) const;
 
+    std::vector<std::string> getAllKeys();
+
 private:
     //resizes the array
     void resize();
@@ -47,7 +49,7 @@ private:
     //returns <whether or not it was found, the index location>
     //note: if it was not found, the index location is where it should be placed
     //new comment: bro my brain was so fucking big when I wrote that 
-    std::pair<bool, int> find(std::string k);
+    std::pair<bool, int> find(std::string k) const;
 
     //linear probing, quadratic probing, or double hashing
     unsigned int probingType;
@@ -81,6 +83,9 @@ private:
     int numItems;
 
     double loadFactor;
+
+    //keeps all keys' strings for easier lookup later
+    std::vector<std::string> allKeys;
 
     //the "hashtable"
     //v1.0 <name, vector of stats>

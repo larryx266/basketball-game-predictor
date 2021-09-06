@@ -35,7 +35,8 @@ hashtable<T>::hashtable(bool debug, unsigned int probing){
 
 template <typename T>
 hashtable<T>::~hashtable(){ 
-	int count = 0;
+	//this way doesn't require allKeys, but since we already have it...
+	/*int count = 0;
 	for (int i = 0; i < size; i++){
 		if (count == numItems){
 			break;
@@ -44,6 +45,10 @@ hashtable<T>::~hashtable(){
 			count++;
 			delete data[i].second;
 		}
+	}*/
+
+	for (unsigned int i = 0; i < allKeys.size(); i++) {
+		delete data[find(allKeys[i]).second].second;
 	}
 	delete[] data;
 }
@@ -62,6 +67,7 @@ void hashtable<T>::add(string k, T* value){
 	data[result.second].second = value;
 
 	if(!result.first){
+		allKeys.push_back(k);
 		numItems++;
 		loadFactor = (double) numItems / (double) size;
 		if (loadFactor >= 0.5) {
@@ -85,7 +91,8 @@ template <typename T>
 void hashtable<T>::reportAll(ostream& ofile) const{
 	//simple ostream dump into parser format
 	if (is_same<T, player>::value) {
-		int count = 0;
+		//also not needed because of allKeys
+		/*int count = 0;
 		for (int i = 0; i < size; i++){
 			if (count == numItems){
 				break;
@@ -99,6 +106,15 @@ void hashtable<T>::reportAll(ostream& ofile) const{
 				}
 				ofile << "</player>" << endl << endl;
 			}
+		}*/
+
+		for (unsigned int i = 0; i < allKeys.size(); i++) {
+			ofile << "<player>" << endl << data[find(allKeys[i]).second].first << endl;
+				vector<double> stats = data[find(allKeys[i]).second].second->getStats();
+				for (unsigned int j = 0; j < stats.size(); j++) {
+					ofile << stats[j] << endl;
+				}
+			ofile << "</player>" << endl << endl;
 		}
 	}
 }
@@ -106,7 +122,9 @@ void hashtable<T>::reportAll(ostream& ofile) const{
 template <typename T>
 void hashtable<T>::resize() {
 	//creating a new "hashtable" and rehashing
-	int oldSize = size;
+
+	//don't need oldSize with allKeys vector
+	//int oldSize = size;
 	size = resizingSizes[resizeIndex];
 	resizeIndex++;
 
@@ -124,8 +142,8 @@ void hashtable<T>::resize() {
 		data[i].first = "";
 	}
 	
-	//rehashing process
-	int count = 0;
+	//v1.0 rehashing process
+	/*int count = 0;
 	for (int i = 0; i < oldSize; i++){
 		//if we have done every word, no need to keep checking
 		if (count == numItems){
@@ -137,8 +155,15 @@ void hashtable<T>::resize() {
 			data[result.second] = make_pair(oldData[i].first, oldData[i].second);
 		}
 		//new comment: once again, my geniosity astounds me; that logic is crazy
+	}*/
+
+	//v2.0 rehashing process
+	for (unsigned int i = 0; i < allKeys.size(); i++) {
+		pair<bool, int> result = find(allKeys[i]);
+		data[result.second] = make_pair(allKeys[i], oldData[find(allKeys[i]).second].second);
 	}
 
+	//don't need to delete stuff inside hashtable because it's been put in the new one
 	delete[] oldData;
 	loadFactor = (double) numItems / (double) size;
 }
@@ -219,7 +244,7 @@ int hashtable<T>::doubleHash(string k) const{
 //true = found in table
 //int is the index
 template <typename T>
-pair<bool, int> hashtable<T>::find(string k){
+pair<bool, int> hashtable<T>::find(string k) const{
 	//if the initial hash is empty or the desired string, done
 	int h = hash(k);
 	if (data[h].first == ""){
@@ -267,6 +292,11 @@ pair<bool, int> hashtable<T>::find(string k){
 	
 	//never hits, but compiler was complaining that I might never return
 	return make_pair(true, 0);
+}
+
+template<typename T>
+vector<string> hashtable<T>::getAllKeys() {
+	return allKeys;
 }
 
 //add to this if you ever need hashtable to hold other stuff (like integers or something)
