@@ -25,27 +25,16 @@ public:
     std::string getTeam();
 
 private:
-    //always update variable, updateStats() will be called to keep the stats vector updated
-    //**can drop variable all together, might do that later
-    void updateStats();
     void computeAggregate();
     double aggregate = 0;
     std::string team;
-    //double weightedInjury;
     std::string name;
-    int age;
-    double heightcm;
-    double bmi;
-    int games;
-    double points;
-    double rebounds;
-    double assists;
-    double wowFactor;
-    double turnovers;
-    double steals;
-    double blocks;
-    double fgPercent;
+
+    //age, height, bmi, games, points, rebounds, assists,
+    //wow factor, turnovers, steals, blocks, field goal percent
     std::vector<double> stats;
+
+    //double weightedInjury;
     //double fg3Percent;
     //double per;
 };

@@ -1,7 +1,5 @@
-int age, double heightcm, double bmi, 
-int games, double points, double rebounds, double assists, double wowFactor,
-double turnovers, double steals, double blocks, double fgPercent
-
+age, height, bmi, games, points, rebounds, assists,
+wow factor, turnovers, steals, blocks, field goal percent
 
 <player>
 Giannis Antetokounmpo
